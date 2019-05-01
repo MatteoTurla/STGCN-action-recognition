@@ -13,7 +13,7 @@ def stgcn_visualize(pose,
     _, T, V, M = pose.shape
     T = len(video)
     pos_track = [None] * M
-    for t in range(T):
+    for t in range(T-1):
         frame = video[t]
 
         # image resize
@@ -105,11 +105,11 @@ def stgcn_visualize(pose,
         text_2 = cv2.imread('./resource/demo_asset/pose_estimation.png', cv2.IMREAD_UNCHANGED)
         text_3 = cv2.imread('./resource/demo_asset/attention+prediction.png', cv2.IMREAD_UNCHANGED)
         text_4 = cv2.imread('./resource/demo_asset/attention+rgb.png', cv2.IMREAD_UNCHANGED)
-        
-        blend(frame, text_1)
-        blend(skeleton, text_2)
-        blend(skeleton_result, text_3)
-        blend(rgb_result, text_4)
+
+        #blend(frame, text_1)
+        #blend(skeleton, text_2)
+        #blend(skeleton_result, text_3)
+        #blend(rgb_result, text_4)
 
         if label is not None:
             label_name = 'voting result: ' + label
@@ -117,7 +117,7 @@ def stgcn_visualize(pose,
 
         img0 = np.concatenate((frame, skeleton), axis=1)
         img1 = np.concatenate((skeleton_result, rgb_result), axis=1)
-        img = np.concatenate((img0, img1), axis=0)
+        img = img1
 
         yield img
 
