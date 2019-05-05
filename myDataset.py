@@ -32,7 +32,7 @@ class Dataset(data.Dataset):
         classes = [d.name for d in os.scandir(dir) if d.is_dir()]
         classes.sort()
         class_to_idx = {classes[i]: i for i in range(len(classes))}
-        idx_to_class = {i: classes[i] for in in range(len(classes))}
+        idx_to_class = {i: classes[i] for i in range(len(classes))}
         return classes, class_to_idx, idx_to_class
 
     def _campionamento(self, pose, campionamento):
@@ -94,16 +94,12 @@ class Dataset(data.Dataset):
             print("\tbin:", bin.item(), "\tlabel:", label)
 
 if __name__ == '__main__':
-    dataset = Dataset('Dataset/aggregorio_skeletons_numpy/basic/train', 16, campionamento=2)
+    dataset = Dataset('Dataset/aggregorio_skeletons_numpy_balanced_same/basic/train', 16, campionamento=2)
     dataset.print()
-    dataloader = data.DataLoader(
-                            dataset,
-                            batch_size=32,
-                        	shuffle=True,
-                        	pin_memory=True,
-                            num_workers = 4
-                        )
-    for batch, (X,y) in enumerate(dataloader):
-        print("Batch:", batch)
-        print("\t", X.shape)
-        print("\t", y)
+
+    dataset = Dataset('Dataset/aggregorio_skeletons_numpy_balanced_same/alerting/train', 16, campionamento=2)
+    dataset.print()
+
+    dataset = Dataset('Dataset/aggregorio_skeletons_numpy_balanced_same/daily_life/train', 16, campionamento=2)
+    dataset.print()
+   

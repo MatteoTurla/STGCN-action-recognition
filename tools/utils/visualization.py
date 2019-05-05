@@ -11,14 +11,13 @@ def stgcn_visualize(pose,
                     height=1080):
 
     _, T, V, M = pose.shape
-    T = len(video)
     pos_track = [None] * M
-    for t in range(T-1):
+    for t in range(T):
         frame = video[t]
 
         # image resize
         H, W, c = frame.shape
-        frame = cv2.resize(frame, (height * W // H //2 , height//2))
+        frame = cv2.resize(frame, (height * W // H //2 , height//2)) #heght, width
         H, W, c = frame.shape
         scale_factor = 2 * height / 1080
 
@@ -59,8 +58,8 @@ def stgcn_visualize(pose,
                 new_x = int(pos_track[m][0] + (pos[0] - pos_track[m][0]) * 0.2)
                 new_y = int(pos_track[m][1] + (pos[1] - pos_track[m][1]) * 0.2)
                 pos_track[m] = (new_x, new_y)
-            cv2.putText(text, body_label, pos_track[m],
-                        cv2.FONT_HERSHEY_TRIPLEX, 0.5 * scale_factor,
+            cv2.putText(text, body_label, (50,50),
+                        cv2.FONT_HERSHEY_TRIPLEX, 1,
                         (255, 255, 255))
 
         # generate mask
@@ -99,7 +98,7 @@ def stgcn_visualize(pose,
         rgb_result[rgb_result > 255] = 255
         rgb_result.astype(np.uint8)
 
-        put_text(skeleton, 'inputs of st-gcn', (0.1, 0.5))
+
 
         text_1 = cv2.imread('./resource/demo_asset/original_video.png', cv2.IMREAD_UNCHANGED)
         text_2 = cv2.imread('./resource/demo_asset/pose_estimation.png', cv2.IMREAD_UNCHANGED)
@@ -113,11 +112,11 @@ def stgcn_visualize(pose,
 
         if label is not None:
             label_name = 'voting result: ' + label
-            put_text(skeleton_result, label_name, (0.1, 0.5))
+            put_text(skeleton_result, label_name, (0.01,0.01))
 
         img0 = np.concatenate((frame, skeleton), axis=1)
         img1 = np.concatenate((skeleton_result, rgb_result), axis=1)
-        img = img1
+        img = np.concatenate((img0, img1), axis=0)
 
         yield img
 

@@ -51,7 +51,7 @@ Parameter Group 0
     lr: 0.1
     momentum: 0.9
     nesterov: False
-    weight_decay: 0.01
+    weight_decay: 0.1
 )
 CrossEntropyLoss()
-{'milestones': [25, 45], 'gamma': 0.1, 'base_lrs': [0.1], 'last_epoch': -1}
+{'milestones': [35, 45], 'gamma': 0.1, 'base_lrs': [0.1], 'last_epoch': -1}

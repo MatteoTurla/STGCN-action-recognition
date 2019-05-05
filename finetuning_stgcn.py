@@ -28,9 +28,9 @@ def save_checkpoint(epoch, model, optimizer, scheduler, path):
     torch.save(state, path)
 
 for cluster in ['basic', 'alerting', 'daily_life']:
-    for nframes in [32]:
-        root_dir = 'Dataset/aggregorio_skeletons_numpy/{}'.format(cluster)
-        dist_dir = 'stats/{}/testing'.format(cluster, nframes)
+    for nframes in [16, 32]:
+        root_dir = 'Dataset/aggregorio_skeletons_numpy_balanced_same/{}'.format(cluster)
+        dist_dir = 'stats/{}/{}_testing_balanced'.format(cluster, nframes)
 
         checkpoint_path = dist_dir+"/checkpoint"
         if not os.path.exists(dist_dir):
@@ -43,11 +43,12 @@ for cluster in ['basic', 'alerting', 'daily_life']:
         confusion_matrix_path = dist_dir+"/confusion_matrix.txt"
         plot_path = dist_dir+"/plot.png"
 
-        batch_size = 256
-        num_epochs = 50
+        batch_size = 512
+        num_epochs = 75
+        campionamento = 2
 
         dataset_train_path = root_dir+'/train'
-        dataset_train = Dataset(dataset_train_path, nframes, campionamento=3)
+        dataset_train = Dataset(dataset_train_path, nframes, campionamento=campionamento)
         loader_train = data.DataLoader(
                                 dataset_train,
                                 batch_size=batch_size,
@@ -57,7 +58,7 @@ for cluster in ['basic', 'alerting', 'daily_life']:
                             )
 
         dataset_test_path = root_dir+'/test'
-        dataset_test = Dataset(dataset_test_path, nframes, campionamento=3)
+        dataset_test = Dataset(dataset_test_path, nframes, campionamento=campionamento)
         loader_test = data.DataLoader(
                                 dataset_test,
                                 batch_size=batch_size,
@@ -102,11 +103,13 @@ for cluster in ['basic', 'alerting', 'daily_life']:
                 print("\t",name)
 
         # Observe that all parameters are being optimized
-        w_decay = 0.01
-        optimizer = optim.SGD(params_to_update, lr=0.1, momentum=0.9, weight_decay=w_decay)
+        w_decay = 0.5
+        momentum = 0.9
+        steps = [35,70]
+        optimizer = optim.SGD(params_to_update, lr=0.1, momentum=momentum, weight_decay=w_decay)
         criterion = nn.CrossEntropyLoss()
 
-        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [25,45], gamma=0.1, last_epoch=-1)
+        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, steps, gamma=0.1, last_epoch=-1)
 
         orig_stdout = sys.stdout
         with open(readme_path, 'w+') as f:

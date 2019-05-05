@@ -10,7 +10,7 @@ Label: A17 index: 4
 Label: A18 index: 5
 Label: A19 index: 6
 Numero di frame utilizzati 32
-Campionamento: 3
+Campionamento: 1
 	bin: 35 	label: A13
 	bin: 35 	label: A14
 	bin: 35 	label: A15
@@ -30,7 +30,7 @@ Label: A17 index: 4
 Label: A18 index: 5
 Label: A19 index: 6
 Numero di frame utilizzati 32
-Campionamento: 3
+Campionamento: 1
 	bin: 20 	label: A13
 	bin: 20 	label: A14
 	bin: 20 	label: A15

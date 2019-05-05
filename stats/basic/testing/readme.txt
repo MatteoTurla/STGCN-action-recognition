@@ -7,7 +7,7 @@ Label: A02 index: 1
 Label: A03 index: 2
 Label: A04 index: 3
 Numero di frame utilizzati 32
-Campionamento: 3
+Campionamento: 1
 	bin: 84 	label: A01
 	bin: 59 	label: A02
 	bin: 85 	label: A03
@@ -21,7 +21,7 @@ Label: A02 index: 1
 Label: A03 index: 2
 Label: A04 index: 3
 Numero di frame utilizzati 32
-Campionamento: 3
+Campionamento: 1
 	bin: 40 	label: A01
 	bin: 30 	label: A02
 	bin: 40 	label: A03
