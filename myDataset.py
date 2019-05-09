@@ -40,9 +40,7 @@ class Dataset(data.Dataset):
         if(campionamento == 1):
             return pose
         if(depth // self.n_frames >= campionamento):
-            index = torch.arange(0, depth, campionamento)
-            video = torch.index_select(pose, 1, index)
-            return pose
+            return pose[:,::campionamento,:,:]
         else:
             return self._campionamento(pose, campionamento -1)
 
@@ -78,28 +76,30 @@ class Dataset(data.Dataset):
         return X, y
 
     def bincount(self):
-        return zip(torch.bincount(torch.tensor(self.list_labels)), self.classes)
+        return torch.bincount(torch.tensor(self.list_labels))
 
     def print(self):
         print("Dataset:", self.root_dataset)
         print("Numero Azioni", self.__len__())
-        print("Classi:", self.classes)
-        print("Classi to index:")
+        print("Classes:", self.classes)
+        print("Classes to index:")
         for c in self.class_to_idx:
             print("Label:", c, "index:", self.class_to_idx[c])
-        print("Numero di frame utilizzati", self.n_frames,)
-        print("Campionamento:", self.campionamento)
-        bins_labels = self.bincount()
-        for bin, label in bins_labels:
-            print("\tbin:", bin.item(), "\tlabel:", label)
+        print("Numero di frame:", self.n_frames,)
+        print("Downsample:", self.campionamento)
+        bins = self.bincount()
+        for idx, _bin in enumerate(bins):
+            print(self.idx_to_class[idx], "\t", _bin.item())
 
 if __name__ == '__main__':
-    dataset = Dataset('Dataset/aggregorio_skeletons_numpy_balanced_same/basic/train', 16, campionamento=2)
+    dataset = Dataset('../Dataset/aggregorio_balanced/aggregorio_skeletons_numpy/basic/train', 16, campionamento=2)
     dataset.print()
 
-    dataset = Dataset('Dataset/aggregorio_skeletons_numpy_balanced_same/alerting/train', 16, campionamento=2)
+    dataset = Dataset('../Dataset/aggregorio_balanced/aggregorio_skeletons_numpy/alerting/train', 16, campionamento=2)
     dataset.print()
 
-    dataset = Dataset('Dataset/aggregorio_skeletons_numpy_balanced_same/daily_life/train', 16, campionamento=2)
+    dataset = Dataset('../Dataset/aggregorio_balanced/aggregorio_skeletons_numpy/daily_life/train', 16, campionamento=2)
     dataset.print()
+
+
    
