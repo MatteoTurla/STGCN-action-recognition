@@ -4,6 +4,7 @@ import json
 
 import numpy as np
 import torch
+import pdb
 import skvideo.io
 
 import tools
@@ -106,9 +107,10 @@ class Demo():
         label_sequence = output.sum(dim=2).argmax(dim=0)
         label_name_sequence = [[label_name[p+offset] for p in l ]for l in label_sequence]
         edge = model.graph.edge
-        images = utils.visualization.stgcn_visualize(
+        images = utils.visualization.stgcn_visualize_output(
             pose, edge, intensity, video,label_name[label+offset] , label_name_sequence, 1080)
         print('Done.')
+        pdb.set_trace()
 
         # save video
         print('\nSaving...')

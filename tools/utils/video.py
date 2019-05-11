@@ -36,17 +36,4 @@ def get_video_frames(video_path):
         video.append(frame)
     return video
 
-def video_play(video_path, fps=30):
-    cap = cv2.VideoCapture(video_path)
 
-    while(cap.isOpened()):
-        ret, frame = cap.read()
-
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        cv2.imshow('frame',gray)
-        if cv2.waitKey(1000/fps) & 0xFF == ord('q'):
-            break
-
-    cap.release()
-    cv2.destroyAllWindows()
