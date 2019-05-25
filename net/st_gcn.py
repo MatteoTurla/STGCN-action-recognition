@@ -91,7 +91,7 @@ class Model(nn.Module):
         
         x = x.view(x.size(0), -1)
         out = self.softmax(x)
-        return out
+        return out, x
 
     def extract_feature(self, x):
 
