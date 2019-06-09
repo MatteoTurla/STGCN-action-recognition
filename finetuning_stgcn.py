@@ -30,7 +30,7 @@ for cluster in ['alerting', 'basic', 'daily_life']:
     campionamento = 2
 
     root_dir = '/home/Dataset/aggregorio_skeletons_numpy/{}'.format(cluster)
-    dist_dir = 'stats/stats_random/{}/{}_{}_6_0.5_2_0.3_random_choose'.format(cluster, nframes, campionamento)
+    dist_dir = 'stats/layer/{}/layer_6'.format(cluster, nframes)
 
     checkpoint_path = dist_dir+"/checkpoint"
     if not os.path.exists(dist_dir):
@@ -60,7 +60,7 @@ for cluster in ['alerting', 'basic', 'daily_life']:
 
     dataset_test_path = root_dir+'/test'
     dataset_test = Dataset(dataset_test_path, nframes, campionamento=campionamento, padding=False, balance=False, 
-                            modality='random_center', move=False)
+                            modality='center', move=False)
 
     loader_test = data.DataLoader(
                             dataset_test,
@@ -93,10 +93,11 @@ for cluster in ['alerting', 'basic', 'daily_life']:
 
     model.fcn = nn.Conv2d(256, num_classes, kernel_size=(1, 1), stride=(1, 1))
 
+    
     for name,param in model.named_parameters():
-        if name.split('.')[0] == 'st_gcn_networks' and (name.split('.')[1] == '9' or name.split('.')[1] == '8'
-                                                         or name.split('.')[1] == '7' or name.split('.')[1] == '6'):
+        if name.split('.')[0] == 'st_gcn_networks' and (name.split('.')[1] == '9'or name.split('.')[1] == '8'or name.split('.')[1] == '7'or name.split('.')[1] == '6'):
             param.requires_grad = True
+    
 
     # Send the model to GPU
     model.cuda()
