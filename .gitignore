@@ -5,8 +5,6 @@ data
 config_v0/*
 backup/*
 .vscode
-model/*
-*.pt
 *.caffemodel
 cache/
 
